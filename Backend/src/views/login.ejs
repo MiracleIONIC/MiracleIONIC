@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Kopi Senja</title>
+    <link rel="icon" href="/images/LogoKopiSenja-removebg-preview.png">
+    <link rel="stylesheet" href="/stylesheet/login.css">
+
+    <!-- GOOGLE FONTS - IMPORT HURUF DARI GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FONT AWESOME - IMPORT ICON DARI FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <section id="loginform">
+        <div class="container">
+            <div class="login-logo">
+                <a href="index.html">
+                    <img src="/images/LogoKopiSenja-removebg-preview.png" alt="" width="70" height="70">
+                    <h2>KOPI SENJA</h2>
+                    <p>Kopinya anak muda</p>
+                </a>
+            </div>
+            <span id="pesan-validasi" style="color: red;font-family: 'Oswald',sans-serif;"></span>
+            <form class="login-form">
+                <ul>
+                    <li>
+                        <input type="text" id="username" name="username" placeholder="Masukkan username" required> 
+                    </li>
+                    <li>
+                        <input type="password" id="password" name="password" placeholder="Password" required> 
+                    </li>
+                </ul>
+                <button type="submit" name="login" id="login">Login</button>
+            </form>
+            <div class="register-link">
+                <a href="/register">Register/Buat akun layanan Kopi Senja</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // KETIKA LOGIN FORM DI SUBMIT MAKA ...
+        document.querySelector('.login-form').addEventListener('submit',async (e)=>{
+            // MEMATIKAN AKSI DEFAULT DARI FORM SAAT SUBMIT
+            e.preventDefault()
+
+            // AMBIL VALUE DARI INPUT USERNAME DAN PASSWORD
+            const body = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            }
+
+            // FETCH KE LOGIN POST
+            const response = await fetch('/login',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            })
+
+            const result = await response.json()
+
+            if(response.status != 200) return document.getElementById('pesan-validasi').textContent = result.error.message
+
+            alert('Berhasil login👍')
+
+            location.href = '/order'
+        })
+
+    </script>
+</body>
+</html>
